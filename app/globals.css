@@ -1,0 +1,91 @@
+@layer reset, base, components, utilities;
+
+/* reset */
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; height: 100%; }
+  img, svg, video { display: block; max-width: 100%; }
+  button { background: none; border: none; padding: 0; font: inherit; color: inherit; cursor: pointer; }
+}
+
+/* base */
+@layer base {
+  :root {
+    --bg: #05060a;
+    --fg: #e6f1ff;
+    --muted: #9bb4ff;
+    --neon: #00e5ff;
+    --pink: #ff3cff;
+    --violet: #8a2eff;
+    --gold: #ffdf6e;
+    --red: #ff3b3b;
+    --green: #34ffb9;
+    --scan-opacity: 0.07;
+  }
+
+  html, body, #__next { height: 100%; }
+  body {
+    font-family: ui-sans-serif, system-ui, Segoe UI, Roboto, Helvetica, Arial, Apple Color Emoji, Segoe UI Emoji;
+    background: radial-gradient(1200px 700px at 10% 10%, #0b0c14 0%, transparent 60%),
+                radial-gradient(1200px 700px at 90% 90%, #090a12 0%, transparent 60%),
+                linear-gradient(180deg, #05060a 0%, #070915 100%);
+    color: var(--fg);
+    overflow: hidden;
+  }
+}
+
+/* utilities */
+@layer utilities {
+  .neonText { text-shadow: 0 0 8px rgba(0,229,255,.7), 0 0 20px rgba(138,46,255,.5); }
+  .glowPink { text-shadow: 0 0 10px rgba(255,60,255,.8), 0 0 30px rgba(255,60,255,.5); }
+  .glowGold { text-shadow: 0 0 10px rgba(255,223,110,.9), 0 0 30px rgba(255,223,110,.6); }
+}
+
+/* components */
+@layer components {
+  .viewport {
+    position: fixed; inset: 0; display: grid; place-items: center; isolation: isolate;
+  }
+  .neonGrid::before {
+    content: ""; position: absolute; inset: -20%; background:
+      repeating-linear-gradient(90deg, rgba(0,229,255,.08) 0 2px, transparent 2px 100px),
+      repeating-linear-gradient(0deg, rgba(138,46,255,.08) 0 2px, transparent 2px 100px);
+    transform: perspective(900px) rotateX(65deg) translateY(25vh);
+    filter: blur(0.5px) drop-shadow(0 0 12px rgba(0,229,255,.25));
+    pointer-events: none; z-index: -1;
+  }
+  .scanlines::after {
+    content: ""; position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient( to bottom, rgba(255,255,255,var(--scan-opacity)) 0 2px, transparent 2px 4px );
+    mix-blend-mode: overlay;
+  }
+  .chromatic {
+    filter: drop-shadow(1px 0 0 rgba(255,0,128,.35)) drop-shadow(-1px 0 0 rgba(0,255,255,.35));
+  }
+  .glitchWrap { position: relative; }
+  .glitchWrap .slice {
+    position: absolute; inset: 0; mix-blend-mode: screen; opacity: 0; animation: glitch 2.5s infinite steps(2);
+  }
+  .glitchWrap .slice.p { color: var(--pink); transform: translate(0,0); }
+  .glitchWrap .slice.c { color: var(--neon); transform: translate(0,0); }
+  @keyframes glitch {
+    0%, 92% { opacity: 0; transform: translate(0,0) skew(0); }
+    93% { opacity: .6; transform: translate(-2px, 1px) skew(-1deg); }
+    95% { opacity: .4; transform: translate(2px, -1px) skew(1deg); }
+    97% { opacity: .7; transform: translate(-1px, 0px); }
+    100% { opacity: 0; }
+  }
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px; backdrop-filter: blur(8px);
+    box-shadow: 0 10px 40px rgba(0,229,255,.08), inset 0 0 0 1px rgba(255,255,255,.04);
+  }
+  .buttonPrimary {
+    border-radius: 9999px; padding: 12px 22px;
+    background: radial-gradient(120% 180% at 10% 10%, rgba(0,229,255,.25), rgba(138,46,255,.25));
+    border: 1px solid rgba(255,255,255,.16); color: white;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .buttonPrimary:hover { transform: translateY(-1px); box-shadow: 0 12px 30px rgba(138,46,255,.25); }
+}
